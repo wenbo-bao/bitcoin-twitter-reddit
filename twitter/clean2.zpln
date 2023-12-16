@@ -1,0 +1,164 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "val filePath = \"tweet_very_clean.parquet\"\nval tweetsDF = spark.read.parquet(filePath)\n// z.show(tweetsDF)",
+      "user": "anonymous",
+      "dateUpdated": "2023-12-11T05:49:32+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mfilePath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = tweet_very_clean.parquet\n\u001b[1m\u001b[34mtweetsDF\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [date: string, texts: array<string>]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://nyu-dataproc-w-0.c.hpc-dataproc-19b8.internal:45889/jobs/job?id=19",
+              "$$hashKey": "object:2503"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1702272871728_1254478781",
+      "id": "paragraph_1702272871728_1254478781",
+      "dateCreated": "2023-12-11T05:34:31+0000",
+      "dateStarted": "2023-12-11T05:49:32+0000",
+      "dateFinished": "2023-12-11T05:49:32+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:2398"
+    },
+    {
+      "text": "// Explode the texts array into separate rows along with the date\nval explodedDF = tweetsDF.withColumn(\"text\", explode($\"texts\"))\n  .select($\"date\", $\"text\")\n\n// Repartition by date to group all texts for the same date\nval repartitionedDF = explodedDF.repartition($\"date\")\n\n// Write the files in text format\n// This will create a directory for each date with part files inside\nrepartitionedDF.write\n  .partitionBy(\"date\")\n  .text(\"clean-tweets\")",
+      "user": "anonymous",
+      "dateUpdated": "2023-12-11T05:49:34+0000",
+      "progress": 40,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mexplodedDF\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [date: string, text: string]\n\u001b[1m\u001b[34mrepartitionedDF\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [date: string, text: string]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://nyu-dataproc-w-0.c.hpc-dataproc-19b8.internal:45889/jobs/job?id=20",
+              "$$hashKey": "object:2561"
+            },
+            {
+              "jobUrl": "http://nyu-dataproc-w-0.c.hpc-dataproc-19b8.internal:45889/jobs/job?id=21",
+              "$$hashKey": "object:2562"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1702272898967_1651055510",
+      "id": "paragraph_1702272898967_1651055510",
+      "dateCreated": "2023-12-11T05:34:58+0000",
+      "dateStarted": "2023-12-11T05:49:34+0000",
+      "dateFinished": "2023-12-11T05:51:00+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:2399"
+    },
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1702272924142_1278690335",
+      "id": "paragraph_1702272924142_1278690335",
+      "dateCreated": "2023-12-11T05:35:24+0000",
+      "status": "READY",
+      "$$hashKey": "object:2400"
+    }
+  ],
+  "name": "bdad-write2",
+  "id": "2JHFKPNW5",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.10.1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/bdad-write2"
+}
